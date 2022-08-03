@@ -14,6 +14,11 @@ namespace VehicleLoanApp.Controllers
     public class LoanController : ControllerBase
     {
         VehicleLoanDatabaseContext db = new VehicleLoanDatabaseContext();
+
+        /// <summary>
+        /// Getting the Basic Applicant Details of the user who have registered into the application
+        /// </summary>
+        /// <returns>Applicants Details</returns>
         [HttpGet]
         [Route("ApplicantDetails")]
         public IActionResult GetApplicantDetails()
@@ -24,6 +29,12 @@ namespace VehicleLoanApp.Controllers
             return Ok(data);
         }
 
+        /// <summary>
+        /// Getting the basic Applicant details of a particular user who has been registered into the application based on their customerID as
+        ///a Parameter
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Details of a particular applicant based on their CId</returns>
         [HttpGet]
         [Route("ApplicantDetails/{id}")]
         public IActionResult GetApplicantDetails(int? id)
@@ -60,6 +71,11 @@ namespace VehicleLoanApp.Controllers
         }
 
 
+        
+        /// <summary>
+        /// Getting Loan Details of all the loans present in the database
+        /// </summary>
+        /// <returns>Loan Details of multiple Loans</returns>
         [HttpGet]
         [Route("LoanDetails")]
         public IActionResult GetLoanDetails()
@@ -78,6 +94,11 @@ namespace VehicleLoanApp.Controllers
         }
 
 
+        /// <summary>
+        /// Method called when admin approves a particular loan. Changes the Status ID of a particular loan from 1(Default) to 3(Approved)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Success/Failure</returns>
         [HttpPut]
         [Route("ApproveLoan/{id}")]
         public IActionResult ApproveLoan(int id)
@@ -94,7 +115,11 @@ namespace VehicleLoanApp.Controllers
         }
 
 
-        [HttpPut]
+        /// <summary>
+        /// Method called when admin rejects a particular loan. Changes the Status ID of a particular loan from 1(Default) to 2(Rejected)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Success/Failure</returns>[HttpPut]
         [Route("RejectLoan/{id}")]
         public IActionResult RejectLoan(int id)
         {
@@ -110,6 +135,11 @@ namespace VehicleLoanApp.Controllers
         }
 
 
+        /// <summary>
+        /// Getting the Pending List of all the loans in the database which requires action from the admin to either approve/reject. Pending Loans
+        /// with the default status ID of 1. Calls a Stored Procedure which returns the Loan Details with status ID of 1(Pending).
+        /// </summary>
+        /// <returns>List of Pending Loan Applications details.</returns>
         [HttpGet]
         [Route("PendingList")]
         public IActionResult GetPendingList()
@@ -118,7 +148,11 @@ namespace VehicleLoanApp.Controllers
             return Ok(data);
         }
 
-        [HttpGet]
+        /// <summary>
+        /// Getting the Pending List of all the loans in the database which has already been approved by the admin. Accepted Loans
+        /// with the status ID of 3. Calls a Stored Procedure which returns the Loan Details with status ID of 3(Accepted).
+        /// </summary>
+        /// <returns>List of Accepted Loan Applications details.</returns>[HttpGet]
         [Route("AcceptedList")]
         public IActionResult GetAcceptedList()
         {
@@ -126,7 +160,12 @@ namespace VehicleLoanApp.Controllers
             return Ok(data);
         }
 
-        [HttpGet]
+
+        /// <summary>
+        /// Getting the Pending List of all the loans in the database which has already been rejected by the admin. Rejected Loans
+        /// with the status ID of 2. Calls a Stored Procedure which returns the Loan Details with status ID of 2(Rejected).
+        /// </summary>
+        /// <returns>List of Pending Loan Applications details.</returns>[HttpGet]
         [Route("RejectedList")]
         public IActionResult GetRejectedList()
         {
@@ -134,6 +173,15 @@ namespace VehicleLoanApp.Controllers
             return Ok(data);
         }
 
+        
+        
+        /// <summary>
+        /// Getting the entire details of a particular application of a particular loan from all the tables which possess the details of a
+        /// particular loan. Highly detailed data of a particular loan filtered based on the Id of a Customer. Calls a Stored Procedure which
+        /// extracts data from all the tables based on the customer ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>JSON object containing details of a particular application</returns>
         [HttpGet]
         [Route("ApplicationDetailed/{id}")]
         public IActionResult GetApplicationDetailed(int? id)
